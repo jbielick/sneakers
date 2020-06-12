@@ -162,117 +162,108 @@ describe Sneakers::Worker do
   describe "#initialize" do
     describe "builds an internal queue" do
       it "should build a queue with correct configuration given defaults" do
-        @defaults_q = DefaultsWorker.new.queue
-        @defaults_q.name.must_equal('defaults')
-        @defaults_q.opts.to_hash.must_equal(
-          :error_reporters => [Sneakers.error_reporters.last],
-          :runner_config_file => nil,
-          :metrics => nil,
-          :daemonize => true,
-          :start_worker_delay => 0.2,
-          :workers => 4,
-          :log => "sneakers.log",
-          :pid_path => "sneakers.pid",
-          :prefetch => 10,
-          :threads => 10,
-          :share_threads => false,
-          :ack => true,
-          :amqp => "amqp://guest:guest@localhost:5672",
-          :vhost => "/",
-          :exchange => "sneakers",
-          :exchange_options => {
-            :type => :direct,
-            :durable => true,
-            :auto_delete => false,
-            :arguments => {}
-          },
-          :queue_options => {
-            :durable => true,
-            :auto_delete => false,
-            :exclusive => false,
-            :arguments => {}
-          },
-          :hooks => {},
-          :handler => Sneakers::Handlers::Oneshot,
-          :heartbeat => 30,
-          :amqp_heartbeat => 30
-        )
+        defaults_q = DefaultsWorker.new.queue
+        defaults_q.name.must_equal('defaults')
+        options = defaults_q.opts.to_hash
+        assert_equal options[:error_reporters], [Sneakers.error_reporters.last]
+        assert_equal options[:runner_config_file], nil
+        assert_equal options[:metrics], nil
+        assert_equal options[:daemonize], true
+        assert_equal options[:start_worker_delay], 0.2
+        assert_equal options[:workers], 4
+        assert_equal options[:log], "sneakers.log"
+        assert_equal options[:pid_path], "sneakers.pid"
+        assert_equal options[:prefetch], 10
+        assert_equal options[:threads], 10
+        assert_equal options[:share_threads], false
+        assert_equal options[:ack], true
+        assert_equal options[:amqp], ENV.fetch("RABBITMQ_URL", "amqp://guest:guest@localhost:5672")
+        assert_equal options[:vhost], "/"
+        assert_equal options[:exchange], "sneakers"
+        exchange_options = options[:exchange_options]
+        assert_equal exchange_options[:type], :direct
+        assert_equal exchange_options[:durable], true
+        assert_equal exchange_options[:auto_delete], false
+        assert_equal exchange_options[:arguments], {}
+        queue_options = options[:queue_options]
+        assert_equal queue_options[:durable], true
+        assert_equal queue_options[:auto_delete], false
+        assert_equal queue_options[:exclusive], false
+        assert_equal queue_options[:arguments], {}
+        assert_equal options[:hooks], {}
+        assert_equal options[:handler], Sneakers::Handlers::Oneshot
+        assert_equal options[:heartbeat], 30
+        assert_equal options[:amqp_heartbeat], 30
       end
 
       it "should build a queue with given configuration" do
-        @dummy_q = DummyWorker.new.queue
-        @dummy_q.name.must_equal('downloads')
-        @dummy_q.opts.to_hash.must_equal(
-          :error_reporters => [Sneakers.error_reporters.last],
-          :runner_config_file => nil,
-          :metrics => nil,
-          :daemonize => true,
-          :start_worker_delay => 0.2,
-          :workers => 4,
-          :log => "sneakers.log",
-          :pid_path => "sneakers.pid",
-          :prefetch => 40,
-          :threads => 50,
-          :share_threads => false,
-          :ack => false,
-          :amqp => "amqp://guest:guest@localhost:5672",
-          :vhost => "/",
-          :exchange => "dummy",
-          :exchange_options => {
-            :type => :topic,
-            :durable => false,
-            :auto_delete => true,
-            :arguments => { 'x-arg' => 'value' }
-          },
-          :queue_options => {
-            :durable => false,
-            :auto_delete => true,
-            :exclusive => true,
-            :arguments => { 'x-arg' => 'value' }
-          },
-          :hooks => {},
-          :handler => Sneakers::Handlers::Oneshot,
-          :heartbeat => 5,
-          :amqp_heartbeat => 30
-        )
+        queue = DummyWorker.new.queue
+        queue.name.must_equal('downloads')
+        options = queue.opts.to_hash
+        assert_equal options[:error_reporters],  [Sneakers.error_reporters.last]
+        assert_equal options[:runner_config_file], nil
+        assert_equal options[:metrics], nil
+        assert_equal options[:daemonize], true
+        assert_equal options[:start_worker_delay], 0.2
+        assert_equal options[:workers], 4
+        assert_equal options[:log], "sneakers.log"
+        assert_equal options[:pid_path], "sneakers.pid"
+        assert_equal options[:prefetch], 40
+        assert_equal options[:threads], 50
+        assert_equal options[:share_threads], false
+        assert_equal options[:ack], false
+        assert_equal options[:amqp], ENV.fetch('RABBITMQ_URL', 'amqp://guest:guest@localhost:5672')
+        assert_equal options[:vhost], "/"
+        assert_equal options[:exchange], "dummy"
+        exchange_options = options[:exchange_options]
+        assert_equal exchange_options[:type], :topic
+        assert_equal exchange_options[:durable], false
+        assert_equal exchange_options[:auto_delete], true
+        assert_equal exchange_options[:arguments], { "x-arg" => "value" }
+        queue_options = options[:queue_options]
+        assert_equal queue_options[:durable], false
+        assert_equal queue_options[:auto_delete], true
+        assert_equal queue_options[:exclusive], true
+        assert_equal queue_options[:arguments], { "x-arg" => "value" }
+        assert_equal options[:hooks], {}
+        assert_equal options[:handler], Sneakers::Handlers::Oneshot
+        assert_equal options[:heartbeat], 5
+        assert_equal options[:amqp_heartbeat], 30
       end
 
       it "should build a queue with correct configuration given deprecated exchange options" do
-        @deprecated_exchange_opts_q = WithDeprecatedExchangeOptionsWorker.new.queue
-        @deprecated_exchange_opts_q.name.must_equal('defaults')
-        @deprecated_exchange_opts_q.opts.to_hash.must_equal(
-          :error_reporters => [Sneakers.error_reporters.last],
-          :runner_config_file => nil,
-          :metrics => nil,
-          :daemonize => true,
-          :start_worker_delay => 0.2,
-          :workers => 4,
-          :log => "sneakers.log",
-          :pid_path => "sneakers.pid",
-          :prefetch => 10,
-          :threads => 10,
-          :share_threads => false,
-          :ack => true,
-          :amqp => "amqp://guest:guest@localhost:5672",
-          :vhost => "/",
-          :exchange => "sneakers",
-          :exchange_options => {
-            :type => :topic,
-            :durable => false,
-            :auto_delete => false,
-            :arguments => { 'x-arg' => 'value' }
-          },
-          :queue_options => {
-            :durable => false,
-            :auto_delete => false,
-            :exclusive => false,
-            :arguments => { 'x-arg2' => 'value2' }
-          },
-          :hooks => {},
-          :handler => Sneakers::Handlers::Oneshot,
-          :heartbeat => 30,
-          :amqp_heartbeat => 30
-        )
+        deprecated_exchange_opts_q = WithDeprecatedExchangeOptionsWorker.new.queue
+        deprecated_exchange_opts_q.name.must_equal('defaults')
+        options = deprecated_exchange_opts_q.opts.to_hash
+        assert_equal options[:error_reporters], [Sneakers.error_reporters.last]
+        assert_equal options[:runner_config_file], nil
+        assert_equal options[:metrics], nil
+        assert_equal options[:daemonize], true
+        assert_equal options[:start_worker_delay], 0.2
+        assert_equal options[:workers], 4
+        assert_equal options[:log], "sneakers.log"
+        assert_equal options[:pid_path], "sneakers.pid"
+        assert_equal options[:prefetch], 10
+        assert_equal options[:threads], 10
+        assert_equal options[:share_threads], false
+        assert_equal options[:ack], true
+        assert_equal options[:amqp], ENV.fetch("RABBITMQ_URL", "amqp://guest:guest@localhost:5672")
+        assert_equal options[:vhost], "/"
+        assert_equal options[:exchange], "sneakers"
+        exchange_options = options[:exchange_options]
+        assert_equal exchange_options[:type], :topic
+        assert_equal exchange_options[:durable], false
+        assert_equal exchange_options[:auto_delete], false
+        assert_equal exchange_options[:arguments], { "x-arg" => "value" }
+        queue_options = options[:queue_options]
+        assert_equal queue_options[:durable], false
+        assert_equal queue_options[:auto_delete], false
+        assert_equal queue_options[:exclusive], false
+        assert_equal queue_options[:arguments], { "x-arg2" => "value" }
+        assert_equal options[:hooks], {}
+        assert_equal options[:handler], Sneakers::Handlers::Oneshot
+        assert_equal options[:heartbeat], 30
+        assert_equal options[:amqp_heartbeat], 30
       end
     end
 

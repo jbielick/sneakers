@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Sneakers
   module Metrics
     class StatsdMetrics
@@ -18,4 +20,3 @@ module Sneakers
     end
   end
 end
-

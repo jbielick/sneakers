@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 require 'thor'
 require 'sneakers/runner'
-
 
 #
 # $ sneakers run TitleWorker,FooWorker

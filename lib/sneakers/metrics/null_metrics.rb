@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Sneakers
   module Metrics
     class NullMetrics
@@ -10,4 +12,3 @@ module Sneakers
     end
   end
 end
-

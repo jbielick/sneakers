@@ -113,4 +113,3 @@ module Sneakers
     @publisher = Sneakers::Publisher.new
   end
 end
-

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Sneakers
   module Concerns
     module Logging
@@ -30,5 +32,3 @@ module Sneakers
     end
   end
 end
-
-

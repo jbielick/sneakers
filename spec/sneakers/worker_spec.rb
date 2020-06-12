@@ -259,7 +259,7 @@ describe Sneakers::Worker do
         assert_equal queue_options[:durable], false
         assert_equal queue_options[:auto_delete], false
         assert_equal queue_options[:exclusive], false
-        assert_equal queue_options[:arguments], { "x-arg2" => "value" }
+        assert_equal queue_options[:arguments], { "x-arg2" => "value2" }
         assert_equal options[:hooks], {}
         assert_equal options[:handler], Sneakers::Handlers::Oneshot
         assert_equal options[:heartbeat], 30

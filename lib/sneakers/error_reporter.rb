@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Ripped off from https://github.com/mperham/sidekiq/blob/master/lib/sidekiq/exception_handler.rb
 module Sneakers
   module ErrorReporter

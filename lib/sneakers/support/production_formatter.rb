@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'time'
 module Sneakers
   module Support
@@ -8,4 +10,3 @@ module Sneakers
     end
   end
 end
-

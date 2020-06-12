@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Sneakers::Utils
   def self.make_worker_id(namespace)
     "worker-#{namespace}:#{'1'}:#{rand(36**6).floor.to_s(36)}"  # jid, worker id. include date.

@@ -1,4 +1,5 @@
-require 'serverengine'
+# frozen_string_literal: true
+
 require 'sneakers/workergroup'
 
 module Sneakers

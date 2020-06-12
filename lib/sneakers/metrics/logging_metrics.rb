@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Sneakers
   module Metrics
     class LoggingMetrics
@@ -13,4 +15,3 @@ module Sneakers
     end
   end
 end
-

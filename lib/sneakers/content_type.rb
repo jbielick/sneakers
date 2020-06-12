@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Sneakers
   class ContentType
     def self.register(content_type: nil, serializer: nil, deserializer: nil)

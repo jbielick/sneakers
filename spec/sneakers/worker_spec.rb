@@ -269,7 +269,7 @@ describe Sneakers::Worker do
 
     describe "initializes worker" do
       it "should generate a worker id" do
-        DummyWorker.new.id.must_match(/^worker-/)
+        _(DummyWorker.new.id).must_match(/^worker-/)
       end
     end
 
@@ -285,7 +285,7 @@ describe Sneakers::Worker do
 
       it "should build a queue with given connection" do
         @dummy_q = DummyWorker.new.queue
-        @dummy_q.opts[:connection].must_equal(@connection)
+        _(@dummy_q.opts[:connection]).must_equal(@connection)
       end
     end
   end
@@ -539,7 +539,7 @@ describe Sneakers::Worker do
       w = DummyWorker.new(@queue, TestPool.new)
       w.instance_variable_set(:@id, 'worker-id')
       m = w.log_msg('foo')
-      w.log_msg('foo').must_match(/\[worker-id\]\[#<Thread:.*>\]\[test-queue\]\[\{\}\] foo/)
+      _(w.log_msg('foo')).must_match(/\[worker-id\]\[#<Thread:.*>\]\[test-queue\]\[\{\}\] foo/)
     end
 
     describe '#worker_error' do

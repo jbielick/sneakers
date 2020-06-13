@@ -43,13 +43,6 @@ module Sneakers
     @configured = false
   end
 
-  def daemonize!(loglevel=Logger::INFO)
-    CONFIG[:log] = 'sneakers.log'
-    CONFIG[:daemonize] = true
-    setup_general_logger!
-    logger.level = loglevel
-  end
-
   def logger=(logger)
     @logger = logger
   end

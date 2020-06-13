@@ -27,20 +27,6 @@ describe Sneakers do
     end
   end
 
-  describe '.daemonize!' do
-    it 'should set a logger to a default info level and not daemonize' do
-      Sneakers.daemonize!
-      _(Sneakers::CONFIG[:log]).must_equal('sneakers.log')
-      _(Sneakers::CONFIG[:daemonize]).must_equal(true)
-      _(Sneakers.logger.level).must_equal(Logger::INFO)
-    end
-
-    it 'should set a logger to a level given that level' do
-      Sneakers.daemonize!(Logger::DEBUG)
-      _(Sneakers.logger.level).must_equal(Logger::DEBUG)
-    end
-  end
-
 
   describe '.clear!' do
     it 'must reset dirty configuration to default' do
@@ -74,4 +60,3 @@ describe Sneakers do
   end
 
 end
-

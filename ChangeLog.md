@@ -1,5 +1,12 @@
 # Sneakers Change Log
 
+## 3.0
+
+ * Replace `ServerEngine::DaemonLogger` with `Logger`
+ * `Sneakers#daemonize!` has been removed.
+ * Logging from publishing is debug level - @abezzub
+ * Specs updated to use new MiniTest helpers - @bumi
+
 ## Changes Between 2.10.0 and 2.11.0
 
 This releases includes bug fixes, support for more queue-binding options, better

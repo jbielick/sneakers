@@ -139,7 +139,7 @@ describe Sneakers::Worker do
     stub(@queue).exchange { @exchange }
 
     Sneakers.clear!
-    Sneakers.configure(daemonize: true, log: 'sneakers.log')
+    Sneakers.configure(log: 'sneakers.log')
     Sneakers::Worker.configure_metrics
   end
 
@@ -168,7 +168,6 @@ describe Sneakers::Worker do
         assert_equal options[:error_reporters], [Sneakers.error_reporters.last]
         assert_equal options[:runner_config_file], nil
         assert_equal options[:metrics], nil
-        assert_equal options[:daemonize], true
         assert_equal options[:start_worker_delay], 0.2
         assert_equal options[:workers], 4
         assert_equal options[:log], "sneakers.log"
@@ -203,7 +202,6 @@ describe Sneakers::Worker do
         assert_equal options[:error_reporters],  [Sneakers.error_reporters.last]
         assert_equal options[:runner_config_file], nil
         assert_equal options[:metrics], nil
-        assert_equal options[:daemonize], true
         assert_equal options[:start_worker_delay], 0.2
         assert_equal options[:workers], 4
         assert_equal options[:log], "sneakers.log"
@@ -238,7 +236,6 @@ describe Sneakers::Worker do
         assert_equal options[:error_reporters], [Sneakers.error_reporters.last]
         assert_equal options[:runner_config_file], nil
         assert_equal options[:metrics], nil
-        assert_equal options[:daemonize], true
         assert_equal options[:start_worker_delay], 0.2
         assert_equal options[:workers], 4
         assert_equal options[:log], "sneakers.log"

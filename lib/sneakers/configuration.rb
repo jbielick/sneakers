@@ -31,7 +31,6 @@ module Sneakers
       # runner
       :runner_config_file => nil,
       :metrics            => nil,
-      :daemonize          => false,
       :start_worker_delay => 0.2,
       :workers            => 4,
       :log                => STDOUT,

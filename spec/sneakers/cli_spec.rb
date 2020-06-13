@@ -41,16 +41,6 @@ describe Sneakers::CLI do
         _(out).must_match(/Log.*Console/)
       end
 
-      it "should be able to run as daemonized process" do
-        out = capture_io{ Sneakers::CLI.start [
-          'work',
-          "TitleScraper",
-          "--daemonize",
-          "--require=#{File.expand_path('../fixtures/require_worker.rb', File.dirname(__FILE__))}"
-        ]}.join ''
-
-        _(out).must_match(/sneakers.log/)
-      end
     end
 
     it "should fail when no workers found" do

@@ -43,7 +43,7 @@ describe 'Handlers' do
   let(:worker) { HandlerTestWorker.new(@queue, TestPool.new) }
 
   before(:each) do
-    Sneakers.configure(:daemonize => true, :log => 'sneakers.log')
+    Sneakers.configure(:log => 'sneakers.log')
     Sneakers::Worker.configure_logger(Logger.new('/dev/null'))
     Sneakers::Worker.configure_metrics
   end

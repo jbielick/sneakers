@@ -3,18 +3,10 @@
 require 'thor'
 require 'sneakers/runner'
 
-#
-# $ sneakers run TitleWorker,FooWorker
-# $ sneakers stop
-# $ sneakers recycle
-# $ sneakers reload
-# $ sneakers init
-#
-#
 module Sneakers
   class CLI < Thor
 
-    SNEAKERS=<<-EOF
+    SNEAKERS = <<-EOF
 
         __
     ,--'  >  Sneakers
@@ -25,24 +17,16 @@ module Sneakers
     BANNER = SNEAKERS
 
     method_option :debug
-    method_option :daemonize
     method_option :log
     method_option :pid_path
     method_option :require
 
     desc "work FirstWorker,SecondWorker ... ,NthWorker", "Run workers"
     def work(workers = "")
-      opts = {
-        :daemonize => !!options[:daemonize]
-      }
+      opts = {}
 
-      opts[:log] = options[:log] || (opts[:daemonize] ? 'sneakers.log' : STDOUT)
+      opts[:log] = options[:log] || STDOUT
       opts[:pid_path] = options[:pid_path] if options[:pid_path]
-
-      if opts[:daemonize]
-        puts "*** DEPRACATED: self-daemonization '--daemonize' is considered a bad practice, which is why this feature will be removed in future versions. Please run Sneakers in front, and use things like upstart, systemd, or supervisor to manage it as a daemon."
-      end
-
 
       Sneakers.configure(opts)
 
